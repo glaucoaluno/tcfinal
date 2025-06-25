@@ -1,0 +1,22 @@
+[
+  {
+    "nome": "Maria Oliveira",
+    "produto": "Cesta Básica",
+    "data": "2024-03-10"
+  },
+  {
+    "nome": "José da Silva",
+    "produto": "Leite em pó",
+    "data": "2024-03-15"
+  },
+  {
+    "nome": "Ana Souza",
+    "produto": "Arroz e feijão",
+    "data": "2024-03-20"
+  },
+  {
+    "nome": "Carlos Lima",
+    "produto": "Produtos de higiene",
+    "data": "2024-03-25"
+  }
+]

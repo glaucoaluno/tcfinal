@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatório de Distribuição</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Relatório de Distribuição</h1>
+    <button id="logout-btn" class="btn-red">Sair</button>
+  </header>
+
+  <main>
+    <section class="relatorio-filtros">
+      <h2>Filtrar por Família ou Data</h2>
+      <input type="text" id="filtro-nome" placeholder="Nome da Família" />
+      <input type="date" id="filtro-data" />
+      <button id="filtrar-btn" class="btn">Filtrar</button>
+    </section>
+
+    <section id="relatorio-resultados">
+      <h2>Doações Registradas</h2>
+      <ul id="lista-doacoes"></ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

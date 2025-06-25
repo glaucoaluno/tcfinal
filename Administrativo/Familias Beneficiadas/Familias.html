@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famílias Beneficiadas</title>
+  <link rel="stylesheet" href="styles.css" />
+
+</head>
+<body>
+  <header>
+    <h1>Famílias Beneficiadas</h1><br>
+  
+  </header>
+
+   <div class="button-container">
+
+  <button id="btn-cadastrar" class="btn">Cadastrar Nova Família</button>
+<section id="cadastrar-familia" class="hidden">
+      <form id="form-cadastro">
+        <input type="text" id="nome" placeholder="Nome completo" required />
+        <input type="text" id="cpf" placeholder="CPF" required />
+        <input type="tel" id="telefone" placeholder="Telefone" required />
+        <input type="text" id="endereco" placeholder="Endereço" required />
+        <input type="number" id="membros" placeholder="Membros na família" required />
+        <button type="submit" class="btn">Cadastrar Família</button>
+      </form>
+    </section>
+
+    <button id="btn-beneficiar" class="btn">Beneficiar Família</button>
+    <section id="beneficiar-familia" class="hidden">
+      <select id="select-familia">
+        <option value="">Selecione uma família</option>
+      </select>
+      <input type="text" id="produto-doado" placeholder="Produto Doado" required />
+      <input type="date" id="data-retirada" required />
+      <button id="registrar-beneficio" class="btn">Registrar Benefício</button>
+    </section>
+
+ <button id="logout-btn" class="btn-red">Sair</button>
+ </div>
+
+  <main>
+    <section id="familias-lista">
+      <h2>Famílias Cadastradas</h2>
+      <ul id="lista-familias"></ul>
+    </section>
+  </main>
+<script src="script.js"></script>
+</body>
+</html>

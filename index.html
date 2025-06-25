@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AjudaONGs - Página Inicial</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div id="home-page" class="page active">
+    <div class="container">
+      <h1>Doe Alimentos, Alimente Esperanças</h1>
+      <p>Conectando doadores e famílias que precisam</p>
+
+      <img src="assets/img/tomate.jpg" height="750" width="1200" alt="Alimentos diversos" class="food-image">
+
+      <div class="buttons">
+        <button id="donate-btn" class="btn">Quero Doar</button>
+        <button id="admin-btn" class="btn secondary">Área Administrativa</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('donate-btn').addEventListener('click', () => {
+      window.location.href = 'CadastroDoacao/cadastro.html'
+    })
+
+    document.getElementById('admin-btn').addEventListener('click', () => {
+      window.location.href = 'Administrativo/Administrativo.html'
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Área Administrativa - Login</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div id="login-container" class="login-container">
+    <h1>Login Administrativo</h1>
+    <form id="login-form">
+      <label for="username">Usuário</label>
+      <input type="text" id="username" name="username" required />
+
+      <label for="password">Senha</label>
+      <input type="password" id="password" name="password" required />
+
+      <button type="submit" class="btn">Entrar</button>
+      <p id="login-error" class="error-msg"></p>
+    </form>
+  </div>
+
+  <div id="painel" style="display: none;" class="painel-container">
+    <h2>Painel Administrativo</h2>
+
+    <ul>
+      <li><a href="../Administrativo/Familias Beneficiadas/Familias.html">Famílias Beneficiadas</a></li>
+      <li><a href="../Administrativo/Registro de Doacoes/Registro.html">Registro de Doações</a></li>
+      <li><a href="../Administrativo/Relatorio de Distribuicao/Relatorio.html">Relatório de Distribuição</a></li>
+    </ul>
+
+    <button id="logout-btn">Sair</button>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("login-form");
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+      const errorMsg = document.getElementById("login-error");
+      const painel = document.getElementById("painel");
+      const loginContainer = document.getElementById("login-container");
+      const logoutBtn = document.getElementById("logout-btn");
+
+      function checkLoginStatus() {
+        const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
+        if (isLoggedIn) {
+          loginContainer.style.display = "none";
+          painel.style.display = "block";
+        }
+      }
+
+      checkLoginStatus();
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+
+        if (username === "admin" && password === "admin123") {
+          localStorage.setItem("adminLoggedIn", "true");
+          loginContainer.style.display = "none";
+          painel.style.display = "block";
+        } else {
+          errorMsg.textContent = "Usuário ou senha incorretos.";
+        }
+      });
+
+      logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem("adminLoggedIn");
+        location.reload();
+      });
+    });
+  </script>
+</body>
+
+</html>

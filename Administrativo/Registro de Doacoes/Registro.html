@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Doações</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Registro de Doações</h1>
+    <button id="logout-btn" class="btn-red">Sair</button>
+  </header>
+
+  <main>
+    <div class="button-container">
+      <button id="btn-registrar" class="btn">Registrar Nova Doação</button>
+    </div>
+
+    <section id="form-doacao" class="hidden">
+      <form id="registro-doacao-form">
+        <input type="text" id="doador" placeholder="Nome do Doador" required />
+        <input type="text" id="cpf-cnpj" placeholder="CPF ou CNPJ" required />
+        <input type="text" id="produto" placeholder="Produto Doado" required />
+        <input type="number" id="quantidade" placeholder="Quantidade" required />
+        <input type="date" id="data-doacao" required />
+        <button type="submit" class="btn">Salvar Doação</button>
+      </form>
+    </section>
+
+    <section id="lista-doacoes">
+      <h2>Doações Registradas</h2>
+      <ul id="doacoes"></ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

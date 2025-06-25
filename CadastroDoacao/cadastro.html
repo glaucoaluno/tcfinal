@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Doação</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastro de Doação</h1>
+    <form id="donation-form">
+      <div class="radio-group">
+        <label><input type="radio" name="tipoPessoa" value="fisica" checked> Pessoa Física</label>
+        <label><input type="radio" name="tipoPessoa" value="juridica"> Pessoa Jurídica</label>
+      </div>
+
+      <div class="form-group">
+        <label for="cpfCnpj">CPF/CNPJ*</label>
+        <input type="text" id="cpfCnpj" name="cpfCnpj" required>
+      </div>
+
+      <div class="form-group">
+        <label for="cep">CEP*</label>
+        <input type="text" id="cep" name="cep" required>
+      </div>
+
+      <div class="form-group">
+        <label for="endereco">Endereço*</label>
+        <input type="text" id="endereco" name="endereco" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="numero">Número*</label>
+        <input type="text" id="numero" name="numero" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email">
+      </div>
+
+      <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" name="telefone">
+      </div>
+
+      <div class="form-group">
+        <label for="produto">Produto Doado*</label>
+        <input type="text" id="produto" name="produto" required>
+      </div>
+
+      <div class="form-group">
+        <label for="quantidade">Quantidade</label>
+        <input type="number" id="quantidade" name="quantidade">
+        <select id="quantity-unit" name="quantity-unit">
+          <option value="unidades">Unidades</option>
+          <option value="caixas">Caixas</option>
+          <option value="pacotes">Pacotes</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="peso">Peso (kg)</label>
+        <input type="number" id="peso" name="peso" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label><input type="radio" name="entrega" value="levar" checked> Levarei a doação</label>
+        <label><input type="radio" name="entrega" value="retirada"> Solicitar Retirada</label>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn">Cadastrar Doação</button>
+        <button type="button" id="buscar-cadastro" class="btn secondary">Já sou cadastrado</button>
+      </div>
+    </form>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

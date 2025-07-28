@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de API - Sistema de Doações</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste de API - Sistema de Doações</h1>
+        
+        <div class="test-section info">
+            <h3>📋 Status da Conexão</h3>
+            <p><strong>API Base:</strong> http://localhost:8989/api</p>
+            <p><strong>Status:</strong> <span id="connection-status">Testando...</span></p>
+        </div>
+
+        <div class="test-section">
+            <h3>👥 Teste de Doadores</h3>
+            <button onclick="testarDoadores()">Listar Doadores</button>
+            <button onclick="criarDoador()">Criar Doador de Teste</button>
+            <div id="doadores-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>👨‍👩‍👧‍👦 Teste de Famílias</h3>
+            <button onclick="testarFamilias()">Listar Famílias</button>
+            <button onclick="criarFamilia()">Criar Família de Teste</button>
+            <div id="familias-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📦 Teste de Produtos</h3>
+            <button onclick="testarProdutos()">Listar Produtos</button>
+            <div id="produtos-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🎁 Teste de Doações</h3>
+            <button onclick="testarDoacoes()">Listar Doações</button>
+            <button onclick="testarDoacoesFamilias()">Listar Doações para Famílias</button>
+            <div id="doacoes-result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8989/api';
+        
+        // Teste inicial de conexão
+        async function testarConexao() {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/doadores`);
+                document.getElementById('connection-status').innerHTML = 
+                    '<span style="color: green;">✅ Conectado com sucesso!</span>';
+            } catch (error) {
+                document.getElementById('connection-status').innerHTML = 
+                    '<span style="color: red;">❌ Erro de conexão: ' + error.message + '</span>';
+            }
+        }
+
+        // Teste de doadores
+        async function testarDoadores() {
+            const resultDiv = document.getElementById('doadores-result');
+            resultDiv.innerHTML = '<p>Carregando...</p>';
+            
+            try {
+                const response = await axios.get(`${API_BASE_URL}/doadores`);
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Doadores carregados com sucesso!</h4>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao carregar doadores</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Criar doador de teste
+        async function criarDoador() {
+            const resultDiv = document.getElementById('doadores-result');
+            resultDiv.innerHTML = '<p>Criando doador...</p>';
+            
+            try {
+                const doadorData = {
+                    nome: "Maria Teste",
+                    email: "maria.teste@email.com",
+                    telefone: "(11) 77777-7777",
+                    endereco: "Rua de Teste, 789"
+                };
+                
+                const response = await axios.post(`${API_BASE_URL}/doadores`, doadorData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Doador criado com sucesso!</h4>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao criar doador</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Teste de famílias
+        async function testarFamilias() {
+            const resultDiv = document.getElementById('familias-result');
+            resultDiv.innerHTML = '<p>Carregando...</p>';
+            
+            try {
+                const response = await axios.get(`${API_BASE_URL}/familias`);
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Famílias carregadas com sucesso!</h4>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao carregar famílias</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Criar família de teste
+        async function criarFamilia() {
+            const resultDiv = document.getElementById('familias-result');
+            resultDiv.innerHTML = '<p>Criando família...</p>';
+            
+            try {
+                const familiaData = {
+                    nome_representante: "João Silva",
+                    cpf_responsavel: "123.456.789-00",
+                    telefone: "(11) 66666-6666",
+                    endereco: "Av. das Famílias, 456"
+                };
+                
+                const response = await axios.post(`${API_BASE_URL}/familias`, familiaData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Família criada com sucesso!</h4>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao criar família</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Teste de produtos
+        async function testarProdutos() {
+            const resultDiv = document.getElementById('produtos-result');
+            resultDiv.innerHTML = '<p>Carregando...</p>';
+            
+            try {
+                const response = await axios.get(`${API_BASE_URL}/produtos`);
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Produtos carregados com sucesso!</h4>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao carregar produtos</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Teste de doações
+        async function testarDoacoes() {
+            const resultDiv = document.getElementById('doacoes-result');
+            resultDiv.innerHTML = '<p>Carregando...</p>';
+            
+            try {
+                const response = await axios.get(`${API_BASE_URL}/doacoes`);
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Doações carregadas com sucesso!</h4>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao carregar doações</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Teste de doações para famílias
+        async function testarDoacoesFamilias() {
+            const resultDiv = document.getElementById('doacoes-result');
+            resultDiv.innerHTML = '<p>Carregando...</p>';
+            
+            try {
+                const response = await axios.get(`${API_BASE_URL}/doacao-familia`);
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Doações para famílias carregadas com sucesso!</h4>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao carregar doações para famílias</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Executar teste inicial quando a página carregar
+        window.onload = function() {
+            testarConexao();
+        };
+    </script>
+</body>
+</html> 

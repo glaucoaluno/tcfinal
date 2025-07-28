@@ -10,64 +10,70 @@
   <div class="container">
     <h1>Cadastro de Doação</h1>
     <form id="donation-form">
-      <div class="radio-group">
-        <label><input type="radio" name="tipoPessoa" value="fisica" checked> Pessoa Física</label>
-        <label><input type="radio" name="tipoPessoa" value="juridica"> Pessoa Jurídica</label>
+      <!-- Seção: Dados do Doador -->
+      <h3>Dados do Doador</h3>
+      <div class="form-group">
+        <label for="nome">Nome Completo*</label>
+        <input type="text" id="nome" name="nome" maxlength="50" required>
       </div>
 
       <div class="form-group">
-        <label for="cpfCnpj">CPF/CNPJ*</label>
-        <input type="text" id="cpfCnpj" name="cpfCnpj" required>
+        <label for="email">Email*</label>
+        <input type="email" id="email" name="email" maxlength="50" required>
       </div>
 
       <div class="form-group">
-        <label for="cep">CEP*</label>
-        <input type="text" id="cep" name="cep" required>
+        <label for="telefone">Telefone*</label>
+        <input type="tel" id="telefone" name="telefone" maxlength="30" required>
       </div>
 
       <div class="form-group">
         <label for="endereco">Endereço*</label>
-        <input type="text" id="endereco" name="endereco" readonly>
+        <input type="text" id="endereco" name="endereco" maxlength="50" required>
+      </div>
+
+      <!-- Seção: Dados da Doação -->
+      <h3>Dados da Doação</h3>
+      <div class="form-group">
+        <label for="data_doacao">Data da Doação*</label>
+        <input type="date" id="data_doacao" name="data_doacao" required>
       </div>
 
       <div class="form-group">
-        <label for="numero">Número*</label>
-        <input type="text" id="numero" name="numero" required>
+        <label for="data_entrada">Data de Entrada*</label>
+        <input type="datetime-local" id="data_entrada" name="data_entrada" required>
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email">
+        <label for="data_entrega">Data de Entrega</label>
+        <input type="datetime-local" id="data_entrega" name="data_entrega">
+      </div>
+
+      <!-- Seção: Dados do Produto -->
+      <h3>Dados do Produto</h3>
+      <div class="form-group">
+        <label for="nome_produto">Nome do Produto*</label>
+        <input type="text" id="nome_produto" name="nome_produto" maxlength="50" required>
       </div>
 
       <div class="form-group">
-        <label for="telefone">Telefone</label>
-        <input type="tel" id="telefone" name="telefone">
+        <label for="unidade">Unidade*</label>
+        <input type="number" id="unidade" name="unidade" required>
       </div>
 
       <div class="form-group">
-        <label for="produto">Produto Doado*</label>
-        <input type="text" id="produto" name="produto" required>
+        <label for="validade">Validade</label>
+        <input type="text" id="validade" name="validade" maxlength="10" placeholder="Ex: 30 dias">
       </div>
 
       <div class="form-group">
-        <label for="quantidade">Quantidade</label>
-        <input type="number" id="quantidade" name="quantidade">
-        <select id="quantity-unit" name="quantity-unit">
-          <option value="unidades">Unidades</option>
-          <option value="caixas">Caixas</option>
-          <option value="pacotes">Pacotes</option>
-        </select>
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" name="descricao" rows="3" placeholder="Descrição detalhada do produto"></textarea>
       </div>
 
       <div class="form-group">
-        <label for="peso">Peso (kg)</label>
-        <input type="number" id="peso" name="peso" step="0.01">
-      </div>
-
-      <div class="form-group">
-        <label><input type="radio" name="entrega" value="levar" checked> Levarei a doação</label>
-        <label><input type="radio" name="entrega" value="retirada"> Solicitar Retirada</label>
+        <label for="data_produto">Data do Produto</label>
+        <input type="date" id="data_produto" name="data_produto">
       </div>
 
       <div class="form-group">
@@ -79,3 +85,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+

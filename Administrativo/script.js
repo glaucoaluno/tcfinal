@@ -1,12 +1,13 @@
+import axios from 'axios'
+
 // Configuração da API
 const API_CONFIG = {
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'http://localhost:8989/api',
     headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+        'Accept': 'application/json'
     }
-};
+}
 
 // Classe para gerenciar requisições à API
 class ApiService {
@@ -18,17 +19,32 @@ class ApiService {
         };
 
         try {
-            const response = await fetch(url, config);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            let response;
+            // Se for GET, params devem ir em 'params', não em 'body'
+            if (!config.method || config.method === 'GET') {
+                response = await axios.get(url, config);
+            } else if (config.method === 'POST') {
+                response = await axios.post(url, config.body ? JSON.parse(config.body) : undefined, config);
+            } else if (config.method === 'PUT') {
+                response = await axios.put(url, config.body ? JSON.parse(config.body) : undefined, config);
+            } else if (config.method === 'PATCH') {
+                response = await axios.patch(url, config.body ? JSON.parse(config.body) : undefined, config);
+            } else if (config.method === 'DELETE') {
+                response = await axios.delete(url, config);
+            } else {
+                throw new Error(`Método HTTP não suportado: ${config.method}`);
             }
-            
-            const data = await response.json();
-            return data;
+            return response.data;
         } catch (error) {
-            console.error('Erro na requisição:', error);
-            throw error;
+            if (error.response) {
+                // Erro retornado pelo servidor
+                console.error('Erro na requisição:', error.response.data);
+                throw error.response.data;
+            } else {
+                // Erro de rede ou outro
+                console.error('Erro na requisição:', error);
+                throw error;
+            }
         }
     }
 
@@ -125,11 +141,6 @@ class ApiService {
     static async getProdutosDisponiveis() {
         return this.request('/produtos/disponiveis');
     }
-
-    // Método para Estatísticas
-    static async getEstatisticas() {
-        return this.request('/estatisticas');
-    }
 }
 
 // Classe para gerenciar autenticação
@@ -220,7 +231,7 @@ class UIManager {
         if (username === "admin" && password === "admin123") {
             try {
                 // Teste de conectividade com a API
-                await ApiService.getEstatisticas();
+                await ApiService.getProdutos(); // Changed from getEstatisticas() to getProdutos()
                 
                 AuthManager.login();
                 this.showPanel();
@@ -271,7 +282,7 @@ class UIManager {
 
         try {
             // Carregar estatísticas do dashboard
-            const stats = await ApiService.getEstatisticas();
+            const stats = await ApiService.getProdutos(); // Changed from getEstatisticas() to getProdutos()
             this.updateDashboardStats(stats);
         } catch (error) {
             console.error("Erro ao carregar dados do dashboard:", error);

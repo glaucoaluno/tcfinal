@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
   if (!isLoggedIn) {
     alert("Acesso não autorizado. Faça login primeiro.");
-    window.location.href = "../Administrativo/Administrativo.html";
+    window.location.href = "../index.html";
     return;
   }
 
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Botão de sair
   document.getElementById("logout-btn").addEventListener("click", () => {
     localStorage.removeItem("adminLoggedIn");
-    window.location.href = "../Administrativo/Administrativo.html";
+    window.location.href = "../../index.html";
   });
 
   // Inicializa a lista

@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 document.addEventListener("DOMContentLoaded", () => {
   const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
   if (!isLoggedIn) {

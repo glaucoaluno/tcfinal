@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("donation-form");
   const loadingSpinner = document.getElementById("loading-spinner");

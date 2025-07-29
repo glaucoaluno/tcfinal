@@ -87,6 +87,7 @@
         <div class="test-section">
             <h3>📦 Teste de Produtos</h3>
             <button onclick="testarProdutos()">Listar Produtos</button>
+            <button onclick="criarProduto()">Criar Produto de Teste</button>
             <div id="produtos-result"></div>
         </div>
 
@@ -94,6 +95,7 @@
             <h3>🎁 Teste de Doações</h3>
             <button onclick="testarDoacoes()">Listar Doações</button>
             <button onclick="testarDoacoesFamilias()">Listar Doações para Famílias</button>
+            <button onclick="criarDoacao()">Criar Doação de Teste</button>
             <div id="doacoes-result"></div>
         </div>
     </div>
@@ -138,6 +140,11 @@
         }
 
         // Criar doador de teste
+        function gerarEmailAleatorio() {
+            const prefixo = Math.random().toString(36).substring(2, 10);
+            return `usuario${prefixo}@email.com`;
+        }
+
         async function criarDoador() {
             const resultDiv = document.getElementById('doadores-result');
             resultDiv.innerHTML = '<p>Criando doador...</p>';
@@ -145,7 +152,7 @@
             try {
                 const doadorData = {
                     nome: "Maria Teste",
-                    email: "maria.teste@email.com",
+                    email: gerarEmailAleatorio(),
                     telefone: "(11) 77777-7777",
                     endereco: "Rua de Teste, 789"
                 };
@@ -203,10 +210,19 @@
             const resultDiv = document.getElementById('familias-result');
             resultDiv.innerHTML = '<p>Criando família...</p>';
             
+            function gerarCpfAleatorio() {
+                let cpf = '';
+                for (let i = 0; i < 11; i++) {
+                    cpf += Math.floor(Math.random() * 10);
+                }
+                // Formata como 000.000.000-00
+                return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            }
+
             try {
                 const familiaData = {
                     nome_representante: "João Silva",
-                    cpf_responsavel: "123.456.789-00",
+                    cpf_responsavel: gerarCpfAleatorio(),
                     telefone: "(11) 66666-6666",
                     endereco: "Av. das Famílias, 456"
                 };
@@ -300,6 +316,115 @@
                 resultDiv.innerHTML = `
                     <div class="error">
                         <h4>❌ Erro ao carregar doações para famílias</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Função para gerar nome de produto aleatório
+        function gerarNomeProdutoAleatorio() {
+            const nomes = ["Arroz", "Feijão", "Macarrão", "Óleo", "Açúcar", "Sal", "Café", "Leite", "Farinha", "Biscoito"];
+            return nomes[Math.floor(Math.random() * nomes.length)] + " Teste" + Math.floor(Math.random() * 1000);
+        }
+
+        // Função para criar produto de teste
+        async function criarProduto() {
+            const resultDiv = document.getElementById('produtos-result');
+            resultDiv.innerHTML = '<p>Criando produto (via doação)...</p>';
+            try {
+                // Buscar um doador existente para vincular a doação
+                const doadoresResp = await axios.get(`${API_BASE_URL}/doadores`);
+                const doadores = doadoresResp.data.data;
+                if (!doadores.length) throw new Error('Cadastre um doador primeiro!');
+                const doador = doadores[0];
+
+                const produto = {
+                    nome: gerarNomeProdutoAleatorio(),
+                    unidade: Math.floor(Math.random() * 10) + 1,
+                    validade: '2025-12-31',
+                    descricao: 'Produto de teste gerado automaticamente',
+                    data: new Date().toISOString().slice(0, 10)
+                };
+
+                const doacaoData = {
+                    data_doacao: new Date().toISOString().slice(0, 10),
+                    data_entrada: new Date().toISOString().slice(0, 10),
+                    data_entrega: null,
+                    id_doador: doador.id,
+                    produtos: [produto]
+                };
+
+                const response = await axios.post(`${API_BASE_URL}/doacoes`, doacaoData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Produto (via doação) criado com sucesso!</h4>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao criar produto</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Função para criar doação de teste
+        async function criarDoacao() {
+            const resultDiv = document.getElementById('doacoes-result');
+            resultDiv.innerHTML = '<p>Criando doação...</p>';
+            try {
+                // Buscar um doador existente
+                const doadoresResp = await axios.get(`${API_BASE_URL}/doadores`);
+                const doadores = doadoresResp.data.data;
+                if (!doadores.length) throw new Error('Cadastre um doador primeiro!');
+                const doador = doadores[0];
+                // Buscar produtos existentes
+                const produtosResp = await axios.get(`${API_BASE_URL}/produtos`);
+                const produtos = produtosResp.data.data;
+                if (!produtos.length) throw new Error('Cadastre um produto primeiro!');
+                // Seleciona até 2 produtos aleatórios
+                const produtosSelecionados = produtos.sort(() => 0.5 - Math.random()).slice(0, 2).map(prod => ({
+                    nome: prod.nome,
+                    unidade: prod.unidade,
+                    validade: prod.validade,
+                    descricao: prod.descricao,
+                    data: prod.data
+                }));
+                const doacaoData = {
+                    data_doacao: new Date().toISOString().slice(0, 10),
+                    data_entrada: new Date().toISOString().slice(0, 10),
+                    data_entrega: null,
+                    id_doador: doador.id,
+                    produtos: produtosSelecionados
+                };
+                const response = await axios.post(`${API_BASE_URL}/doacoes`, doacaoData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Doação criada com sucesso!</h4>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao criar doação</h4>
                         <p>${error.message}</p>
                         <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
                     </div>

@@ -105,3 +105,46 @@ ul li a {
 ul li a:hover {
   color: #192a56;
 }
+
+.container {
+  background-color: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+
+.botoes button {
+  padding: 0.9rem 1.2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.08);
+}
+
+.botoes button:hover {
+  background-color: #388e3c;
+  transform: translateY(-2px) scale(1.03);
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}

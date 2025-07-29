@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 // Configuração da API
 const API_CONFIG = {
     baseURL: 'http://localhost:8989/api',

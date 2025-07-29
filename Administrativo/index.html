@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Área Administrativa - Login</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>Painel Administrativo</h1>
+        
+        <!-- Formulário de Login -->
+        <div id="login-form-container">
+            <form id="login-form">
+                <h2>Login Administrativo</h2>
+                <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-login">Entrar</button>
+                <div id="login-error" class="error-msg" style="display: none;"></div>
+            </form>
+        </div>
+
+        <!-- Painel Administrativo (inicialmente oculto) -->
+        <div id="admin-panel" style="display: none;">
+            <div class="botoes">
+                <button onclick="window.location.href='Familias Beneficiadas/Familias.html'">Gerenciar Famílias Beneficiadas</button>
+                <button onclick="window.location.href='Registro de Doacoes/Registro.html'">Registrar Doações para Famílias</button>
+                <button onclick="window.location.href='../CadastroDoacao/cadastro.html'">Cadastrar Doação de Produtos</button>
+                <button onclick="window.location.href='../index.html'">Voltar para Página Inicial</button>
+                <button onclick="logout()" class="btn-logout">Sair</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

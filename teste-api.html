@@ -98,6 +98,13 @@
             <button onclick="criarDoacao()">Criar Doação de Teste</button>
             <div id="doacoes-result"></div>
         </div>
+
+        <div class="test-section">
+            <h3>🏠 Teste de Doações para Famílias</h3>
+            <button onclick="testarDoacoesFamilias()">Listar Doações para Famílias</button>
+            <button onclick="criarDoacaoFamiliaAleatoria()">Criar Doação Aleatória para Família</button>
+            <div id="doacoes-familias-result"></div>
+        </div>
     </div>
 
     <script>
@@ -301,7 +308,7 @@
 
         // Teste de doações para famílias
         async function testarDoacoesFamilias() {
-            const resultDiv = document.getElementById('doacoes-result');
+            const resultDiv = document.getElementById('doacoes-familias-result');
             resultDiv.innerHTML = '<p>Carregando...</p>';
             
             try {
@@ -316,6 +323,74 @@
                 resultDiv.innerHTML = `
                     <div class="error">
                         <h4>❌ Erro ao carregar doações para famílias</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Criar doação aleatória para família
+        async function criarDoacaoFamiliaAleatoria() {
+            const resultDiv = document.getElementById('doacoes-familias-result');
+            resultDiv.innerHTML = '<p>Criando doação aleatória para família...</p>';
+            
+            try {
+                // Buscar famílias existentes
+                const familiasResp = await axios.get(`${API_BASE_URL}/familias`);
+                const familias = familiasResp.data.data;
+                if (!familias.length) {
+                    throw new Error('Cadastre uma família primeiro!');
+                }
+                
+                // Buscar produtos disponíveis
+                const produtosResp = await axios.get(`${API_BASE_URL}/produtos`);
+                const produtos = produtosResp.data.data;
+                if (!produtos.length) {
+                    throw new Error('Cadastre produtos primeiro!');
+                }
+                
+                // Selecionar família e produto aleatórios
+                const familiaAleatoria = familias[Math.floor(Math.random() * familias.length)];
+                const produtoAleatorio = produtos[Math.floor(Math.random() * produtos.length)];
+                
+                // Gerar quantidade aleatória entre 1 e 5
+                const quantidadeAleatoria = Math.floor(Math.random() * 5) + 1;
+                
+                // Gerar data aleatória nos últimos 30 dias
+                const dataAleatoria = new Date();
+                dataAleatoria.setDate(dataAleatoria.getDate() - Math.floor(Math.random() * 30));
+                
+                const doacaoFamiliaData = {
+                    familia_id_familia: familiaAleatoria.id,
+                    produtos_id: produtoAleatorio.id,
+                    quantidade: quantidadeAleatoria,
+                    data: dataAleatoria.toISOString().slice(0, 10)
+                };
+                
+                console.log('Dados da doação para família:', doacaoFamiliaData);
+                
+                const response = await axios.post(`${API_BASE_URL}/doacao-familia`, doacaoFamiliaData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Doação aleatória para família criada com sucesso!</h4>
+                        <p><strong>Família:</strong> ${familiaAleatoria.nome_representante}</p>
+                        <p><strong>Produto:</strong> ${produtoAleatorio.nome}</p>
+                        <p><strong>Quantidade:</strong> ${quantidadeAleatoria}</p>
+                        <p><strong>Data:</strong> ${dataAleatoria.toISOString().slice(0, 10)}</p>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao criar doação para família</h4>
                         <p>${error.message}</p>
                         <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
                     </div>

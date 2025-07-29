@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
   if (!isLoggedIn) {
     alert("Acesso não autorizado. Faça login primeiro.");
-    window.location.href = "../Administrativo/Administrativo.html";
+    window.location.href = "../index.html";
     return;
   }
 
@@ -17,35 +17,55 @@ document.addEventListener("DOMContentLoaded", () => {
   const listaDoacoes = document.getElementById("doacoes");
   const btnRegistrar = document.getElementById("btn-registrar");
 
+  // Função para formatar data e hora no formato brasileiro
+  function formatarDataHora(dataString) {
+    if (!dataString || dataString === null || dataString === undefined) {
+      return 'Data não informada';
+    }
+    
+    try {
+      const data = new Date(dataString);
+      
+      // Verificar se a data é válida
+      if (isNaN(data.getTime())) {
+        return 'Data inválida';
+      }
+      
+      // Formatar data: DD-MM-AAAA
+      const dia = String(data.getDate()).padStart(2, '0');
+      const mes = String(data.getMonth() + 1).padStart(2, '0');
+      const ano = data.getFullYear();
+      
+      // Formatar hora: HH:MM:SS
+      const hora = String(data.getHours()).padStart(2, '0');
+      const minuto = String(data.getMinutes()).padStart(2, '0');
+      const segundo = String(data.getSeconds()).padStart(2, '0');
+      
+      return `${dia}-${mes}-${ano} ${hora}:${minuto}:${segundo}`;
+    } catch (error) {
+      console.error('Erro ao formatar data:', error);
+      return 'Data inválida';
+    }
+  }
+
   // Função para mostrar mensagens
   const showMessage = (message, type = 'info') => {
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type}`;
-    alertDiv.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 9999;
-      padding: 15px;
-      border-radius: 5px;
-      max-width: 400px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      color: white;
-    `;
-    
-    const colors = {
-      success: '#28a745',
-      error: '#dc3545',
-      warning: '#ffc107',
-      info: '#17a2b8'
-    };
-    
-    alertDiv.style.backgroundColor = colors[type] || colors.info;
     alertDiv.textContent = message;
     
     document.body.appendChild(alertDiv);
     
-    setTimeout(() => alertDiv.remove(), 5000);
+    // Animar entrada
+    setTimeout(() => {
+      alertDiv.classList.add('show');
+    }, 100);
+    
+    // Remover após 5 segundos com animação de saída
+    setTimeout(() => {
+      alertDiv.classList.remove('show');
+      setTimeout(() => alertDiv.remove(), 300);
+    }, 5000);
   };
 
   // Carregar famílias da API
@@ -163,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const li = document.createElement("li");
         const familiaNome = doacao.familia ? doacao.familia.nome_representante : 'Família não encontrada';
         const produtoNome = doacao.produto ? doacao.produto.nome : 'Produto não encontrado';
-        li.textContent = `${doacao.data ?? 'Data não informada'} - ${familiaNome} recebeu ${doacao.quantidade} de ${produtoNome}`;
+        li.textContent = `${formatarDataHora(doacao.data)} - ${familiaNome} recebeu ${doacao.quantidade} de ${produtoNome}`;
         listaDoacoes.appendChild(li);
       });
   
@@ -181,6 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Logout
   document.getElementById("logout-btn").addEventListener("click", () => {
     localStorage.removeItem("adminLoggedIn");
-    window.location.href = "../Administrativo/Administrativo.html";
+    window.location.href = "../../index.html";
   });
 });

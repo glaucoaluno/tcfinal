@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
   if (!isLoggedIn) {
     alert("Acesso não autorizado. Faça login primeiro.");
-    window.location.href = "../Administrativo/Administrativo.html";
+    window.location.href = "../index.html";
     return;
   }
 
@@ -11,48 +11,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const lista = document.getElementById("lista-familias");
   const select = document.getElementById("select-familia");
+  const selectProduto = document.getElementById("select-produto");
   const cadastrarSection = document.getElementById("cadastrar-familia");
   const beneficiarSection = document.getElementById("beneficiar-familia");
   const formCadastro = document.getElementById("form-cadastro");
+  const formBeneficiar = document.getElementById("form-beneficiar");
   const registrarBeneficioBtn = document.getElementById("registrar-beneficio");
 
   document.getElementById("btn-cadastrar").addEventListener("click", () => {
+    beneficiarSection.classList.add("hidden"); // Fecha o outro formulário
     cadastrarSection.classList.toggle("hidden");
   });
 
   document.getElementById("btn-beneficiar").addEventListener("click", () => {
+    cadastrarSection.classList.add("hidden"); // Fecha o outro formulário
     beneficiarSection.classList.toggle("hidden");
+    if (!beneficiarSection.classList.contains("hidden")) {
+      carregarProdutos(); // Recarregar produtos quando abrir a seção
+    }
   });
 
   // Função para mostrar mensagens
   const showMessage = (message, type = 'info') => {
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type}`;
-    alertDiv.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 9999;
-      padding: 15px;
-      border-radius: 5px;
-      max-width: 400px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      color: white;
-    `;
-    
-    const colors = {
-      success: '#28a745',
-      error: '#dc3545',
-      warning: '#ffc107',
-      info: '#17a2b8'
-    };
-    
-    alertDiv.style.backgroundColor = colors[type] || colors.info;
     alertDiv.textContent = message;
     
     document.body.appendChild(alertDiv);
     
-    setTimeout(() => alertDiv.remove(), 5000);
+    // Animar entrada
+    setTimeout(() => {
+      alertDiv.classList.add('show');
+    }, 100);
+    
+    // Remover após 5 segundos com animação de saída
+    setTimeout(() => {
+      alertDiv.classList.remove('show');
+      setTimeout(() => alertDiv.remove(), 300);
+    }, 5000);
   };
 
   // Função para carregar famílias da API
@@ -82,6 +78,31 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Erro ao carregar famílias:", error);
       showMessage("Erro ao carregar famílias da API.", "error");
       lista.innerHTML = "<li>Erro ao carregar famílias.</li>";
+    }
+  }
+
+  // Função para carregar produtos da API
+  async function carregarProdutos() {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/produtos`);
+      const produtos = response.data.data;
+
+      selectProduto.innerHTML = '<option value="">Selecione um produto</option>';
+      
+      if (produtos && produtos.length > 0) {
+        produtos.forEach(produto => {
+          const option = document.createElement("option");
+          option.value = produto.id;
+          option.textContent = `${produto.nome} - ${produto.unidade} unidades`;
+          selectProduto.appendChild(option);
+        });
+      } else {
+        selectProduto.innerHTML = '<option value="">Nenhum produto disponível</option>';
+      }
+    } catch (error) {
+      console.error("Erro ao carregar produtos:", error);
+      showMessage("Erro ao carregar produtos da API.", "error");
+      selectProduto.innerHTML = '<option value="">Erro ao carregar produtos</option>';
     }
   }
 
@@ -132,26 +153,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Registrar benefício (doação para família)
-  registrarBeneficioBtn.addEventListener("click", async () => {
+  formBeneficiar.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
     const familiaId = select.value;
-    const produto = document.getElementById("produto-doado").value.trim();
+    const produtoId = selectProduto.value;
+    const quantidade = document.getElementById("quantidade").value;
     const dataRetirada = document.getElementById("data-retirada").value;
 
-    if (!familiaId || !produto || !dataRetirada) {
+    if (!familiaId || !produtoId || !quantidade || !dataRetirada) {
       showMessage("Por favor, preencha todos os campos.", "warning");
       return;
     }
 
     try {
-      // Primeiro, buscar a família para obter o nome
-      const familiaResponse = await axios.get(`${API_BASE_URL}/familias/${familiaId}`);
-      const familia = familiaResponse.data.data; // Acessar o campo data da resposta
-
       // Registrar a doação para família usando o endpoint correto
       const doacaoData = {
         familia_id_familia: parseInt(familiaId),
-        produtos_id: 1, // ID padrão do produto (você pode implementar um select de produtos)
-        quantidade: 1,
+        produtos_id: parseInt(produtoId),
+        quantidade: parseInt(quantidade),
         data: dataRetirada
       };
 
@@ -165,9 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showMessage("Benefício registrado com sucesso!", "success");
       
       // Limpar formulário
-      select.value = "";
-      document.getElementById("produto-doado").value = "";
-      document.getElementById("data-retirada").value = "";
+      formBeneficiar.reset();
       beneficiarSection.classList.add("hidden");
       
     } catch (error) {
@@ -182,6 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   carregarFamilias();
+  carregarProdutos(); // Carregar produtos após a família
 
   // Máscara para CPF
   const cpfInput = document.getElementById('cpf_responsavel');
@@ -217,6 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("logout-btn").addEventListener("click", () => {
     localStorage.removeItem("adminLoggedIn");
-    window.location.href = "../Administrativo/Administrativo.html";
+    window.location.href = "../../index.html";
   });
 });

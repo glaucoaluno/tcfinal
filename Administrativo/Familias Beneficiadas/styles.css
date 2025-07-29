@@ -53,18 +53,21 @@ main {
   flex-wrap: wrap;
   margin: 20px auto;
   max-width: 900px;
+  padding: 0 20px;
 }
 
 .btn,
 .btn-red {
-  padding: 12px 20px;
+  padding: 12px 24px;
   border: none;
   border-radius: 6px;
   font-size: 16px;
   font-weight: 600;
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  min-width: 180px;
+  text-align: center;
 }
 
 .btn {
@@ -73,6 +76,8 @@ main {
 
 .btn:hover {
   background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .btn-red {
@@ -81,6 +86,8 @@ main {
 
 .btn-red:hover {
   background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 section {
@@ -95,16 +102,97 @@ section {
   display: none;
 }
 
-button,
-input,
-select {
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+/* Estilos para formulários */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
   width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+}
+
+.form-group input[type="number"] {
+  width: 120px;
+  text-align: center;
+}
+
+.form-group input[type="date"] {
+  min-width: 150px;
+}
+
+form h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 18px;
+  border-bottom: 2px solid #28a745;
+  padding-bottom: 10px;
+}
+
+/* Estilos para mensagens de alerta */
+.alert {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  padding: 15px 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  border-left: 4px solid;
+}
+
+.alert-success {
+  background-color: #28a745;
+  border-left-color: #1e7e34;
+}
+
+.alert-error {
+  background-color: #dc3545;
+  border-left-color: #c82333;
+}
+
+.alert-warning {
+  background-color: #ffc107;
+  border-left-color: #e0a800;
+  color: #212529;
+}
+
+.alert-info {
+  background-color: #17a2b8;
+  border-left-color: #138496;
+}
+
+/* Animação de entrada */
+.alert.show {
+  transform: translateX(0);
 }
 
 .btn {

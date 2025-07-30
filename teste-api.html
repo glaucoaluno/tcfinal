@@ -74,6 +74,7 @@
             <h3>👥 Teste de Doadores</h3>
             <button onclick="testarDoadores()">Listar Doadores</button>
             <button onclick="criarDoador()">Criar Doador de Teste</button>
+        <button onclick="criarMultiplosDoadores()">Criar Múltiplos Doadores</button>
             <div id="doadores-result"></div>
         </div>
 
@@ -81,6 +82,7 @@
             <h3>👨‍👩‍👧‍👦 Teste de Famílias</h3>
             <button onclick="testarFamilias()">Listar Famílias</button>
             <button onclick="criarFamilia()">Criar Família de Teste</button>
+        <button onclick="criarMultiplasFamilias()">Criar Múltiplas Famílias</button>
             <div id="familias-result"></div>
         </div>
 
@@ -103,6 +105,7 @@
             <h3>🏠 Teste de Doações para Famílias</h3>
             <button onclick="testarDoacoesFamilias()">Listar Doações para Famílias</button>
             <button onclick="criarDoacaoFamiliaAleatoria()">Criar Doação Aleatória para Família</button>
+        <button onclick="criarMultiplasDoacoes()">Criar Múltiplas Doações (Teste)</button>
             <div id="doacoes-familias-result"></div>
         </div>
     </div>
@@ -156,12 +159,38 @@
             const resultDiv = document.getElementById('doadores-result');
             resultDiv.innerHTML = '<p>Criando doador...</p>';
             
+            // Lista de nomes brasileiros para gerar dados mais realistas
+            const nomes = [
+                "Ana Silva", "Carlos Santos", "Maria Oliveira", "João Pereira", "Lucia Costa",
+                "Pedro Ferreira", "Fernanda Lima", "Roberto Almeida", "Patricia Souza", "Marcos Rodrigues",
+                "Juliana Barbosa", "Ricardo Gomes", "Camila Martins", "Andre Silva", "Vanessa Santos",
+                "Felipe Oliveira", "Gabriela Costa", "Thiago Pereira", "Isabela Lima", "Rafael Almeida",
+                "Carolina Souza", "Diego Rodrigues", "Amanda Barbosa", "Lucas Gomes", "Mariana Martins",
+                "Bruno Silva", "Beatriz Santos", "Guilherme Oliveira", "Larissa Costa", "Matheus Pereira"
+            ];
+            
+            const sobrenomes = [
+                "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Almeida", "Pereira",
+                "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Alves", "Lopes", "Soares",
+                "Fernandes", "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade", "Moreira"
+            ];
+            
+            // Gerar nome aleatório
+            const nomeAleatorio = nomes[Math.floor(Math.random() * nomes.length)];
+            const sobrenomeAleatorio = sobrenomes[Math.floor(Math.random() * sobrenomes.length)];
+            const nomeCompleto = `${nomeAleatorio} ${sobrenomeAleatorio}`;
+            
+            // Gerar endereço aleatório
+            const ruas = ["Rua das Flores", "Avenida Principal", "Rua do Comércio", "Avenida Central", "Rua da Paz"];
+            const numero = Math.floor(Math.random() * 999) + 1;
+            const ruaAleatoria = ruas[Math.floor(Math.random() * ruas.length)];
+            
             try {
                 const doadorData = {
-                    nome: "Maria Teste",
+                    nome: nomeCompleto,
                     email: gerarEmailAleatorio(),
-                    telefone: "(11) 77777-7777",
-                    endereco: "Rua de Teste, 789"
+                    telefone: `(11) ${Math.floor(Math.random() * 90000) + 10000}-${Math.floor(Math.random() * 9000) + 1000}`,
+                    endereco: `${ruaAleatoria}, ${numero}`
                 };
                 
                 const response = await axios.post(`${API_BASE_URL}/doadores`, doadorData, {
@@ -226,12 +255,38 @@
                 return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
             }
 
+            // Lista de nomes brasileiros para famílias
+            const nomesFamilia = [
+                "Maria Silva", "José Santos", "Ana Oliveira", "Carlos Pereira", "Lucia Costa",
+                "Pedro Ferreira", "Fernanda Lima", "Roberto Almeida", "Patricia Souza", "Marcos Rodrigues",
+                "Juliana Barbosa", "Ricardo Gomes", "Camila Martins", "Andre Silva", "Vanessa Santos",
+                "Felipe Oliveira", "Gabriela Costa", "Thiago Pereira", "Isabela Lima", "Rafael Almeida",
+                "Carolina Souza", "Diego Rodrigues", "Amanda Barbosa", "Lucas Gomes", "Mariana Martins",
+                "Bruno Silva", "Beatriz Santos", "Guilherme Oliveira", "Larissa Costa", "Matheus Pereira"
+            ];
+            
+            const sobrenomesFamilia = [
+                "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Almeida", "Pereira",
+                "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Alves", "Lopes", "Soares",
+                "Fernandes", "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade", "Moreira"
+            ];
+            
+            // Gerar nome aleatório para família
+            const nomeAleatorio = nomesFamilia[Math.floor(Math.random() * nomesFamilia.length)];
+            const sobrenomeAleatorio = sobrenomesFamilia[Math.floor(Math.random() * sobrenomesFamilia.length)];
+            const nomeCompleto = `${nomeAleatorio} ${sobrenomeAleatorio}`;
+            
+            // Gerar endereço aleatório
+            const ruas = ["Rua das Famílias", "Avenida da Esperança", "Rua da Solidariedade", "Avenida da Paz", "Rua da União"];
+            const numero = Math.floor(Math.random() * 999) + 1;
+            const ruaAleatoria = ruas[Math.floor(Math.random() * ruas.length)];
+
             try {
                 const familiaData = {
-                    nome_representante: "João Silva",
+                    nome_representante: nomeCompleto,
                     cpf_responsavel: gerarCpfAleatorio(),
-                    telefone: "(11) 66666-6666",
-                    endereco: "Av. das Famílias, 456"
+                    telefone: `(11) ${Math.floor(Math.random() * 90000) + 10000}-${Math.floor(Math.random() * 9000) + 1000}`,
+                    endereco: `${ruaAleatoria}, ${numero}`
                 };
                 
                 const response = await axios.post(`${API_BASE_URL}/familias`, familiaData, {
@@ -380,10 +435,12 @@
                 resultDiv.innerHTML = `
                     <div class="success">
                         <h4>✅ Doação aleatória para família criada com sucesso!</h4>
-                        <p><strong>Família:</strong> ${familiaAleatoria.nome_representante}</p>
-                        <p><strong>Produto:</strong> ${produtoAleatorio.nome}</p>
+                        <p><strong>Família:</strong> ${familiaAleatoria.nome_representante} (ID: ${familiaAleatoria.id})</p>
+                        <p><strong>Produto:</strong> ${produtoAleatorio.nome} (ID: ${produtoAleatorio.id})</p>
                         <p><strong>Quantidade:</strong> ${quantidadeAleatoria}</p>
                         <p><strong>Data:</strong> ${dataAleatoria.toISOString().slice(0, 10)}</p>
+                        <p><strong>Total de famílias disponíveis:</strong> ${familias.length}</p>
+                        <p><strong>Total de produtos disponíveis:</strong> ${produtos.length}</p>
                         <pre>${JSON.stringify(response.data, null, 2)}</pre>
                     </div>
                 `;
@@ -400,8 +457,16 @@
 
         // Função para gerar nome de produto aleatório
         function gerarNomeProdutoAleatorio() {
-            const nomes = ["Arroz", "Feijão", "Macarrão", "Óleo", "Açúcar", "Sal", "Café", "Leite", "Farinha", "Biscoito"];
-            return nomes[Math.floor(Math.random() * nomes.length)] + " Teste" + Math.floor(Math.random() * 1000);
+            const nomes = [
+                "Arroz", "Feijão", "Macarrão", "Óleo", "Açúcar", "Sal", "Café", "Leite", "Farinha", "Biscoito",
+                "Azeite", "Molho de Tomate", "Milho", "Ervilha", "Atum", "Sardinha", "Manteiga", "Queijo",
+                "Iogurte", "Pão", "Bolacha", "Chocolate", "Refrigerante", "Suco", "Água", "Sabão", "Detergente",
+                "Papel Higiênico", "Fralda", "Shampoo", "Creme Dental", "Escova de Dentes", "Toalha", "Lençol"
+            ];
+            const marcas = ["Premium", "Especial", "Fino", "Seleção", "Qualidade", "Nobre", "Supremo", "Extra"];
+            const marca = marcas[Math.floor(Math.random() * marcas.length)];
+            const nome = nomes[Math.floor(Math.random() * nomes.length)];
+            return `${nome} ${marca}`;
         }
 
         // Função para criar produto de teste
@@ -413,7 +478,8 @@
                 const doadoresResp = await axios.get(`${API_BASE_URL}/doadores`);
                 const doadores = doadoresResp.data.data;
                 if (!doadores.length) throw new Error('Cadastre um doador primeiro!');
-                const doador = doadores[0];
+                // Selecionar doador aleatório ao invés de sempre o primeiro
+                const doador = doadores[Math.floor(Math.random() * doadores.length)];
 
                 const produto = {
                     nome: gerarNomeProdutoAleatorio(),
@@ -441,6 +507,9 @@
                 resultDiv.innerHTML = `
                     <div class="success">
                         <h4>✅ Produto (via doação) criado com sucesso!</h4>
+                        <p><strong>Doador utilizado:</strong> ${doador.nome} (ID: ${doador.id})</p>
+                        <p><strong>Produto criado:</strong> ${produto.nome}</p>
+                        <p><strong>Total de doadores disponíveis:</strong> ${doadores.length}</p>
                         <pre>${JSON.stringify(response.data, null, 2)}</pre>
                     </div>
                 `;
@@ -464,7 +533,8 @@
                 const doadoresResp = await axios.get(`${API_BASE_URL}/doadores`);
                 const doadores = doadoresResp.data.data;
                 if (!doadores.length) throw new Error('Cadastre um doador primeiro!');
-                const doador = doadores[0];
+                // Selecionar doador aleatório ao invés de sempre o primeiro
+                const doador = doadores[Math.floor(Math.random() * doadores.length)];
                 // Buscar produtos existentes
                 const produtosResp = await axios.get(`${API_BASE_URL}/produtos`);
                 const produtos = produtosResp.data.data;
@@ -493,6 +563,10 @@
                 resultDiv.innerHTML = `
                     <div class="success">
                         <h4>✅ Doação criada com sucesso!</h4>
+                        <p><strong>Doador utilizado:</strong> ${doador.nome} (ID: ${doador.id})</p>
+                        <p><strong>Produtos incluídos:</strong> ${produtosSelecionados.length}</p>
+                        <p><strong>Total de doadores disponíveis:</strong> ${doadores.length}</p>
+                        <p><strong>Total de produtos disponíveis:</strong> ${produtos.length}</p>
                         <pre>${JSON.stringify(response.data, null, 2)}</pre>
                     </div>
                 `;
@@ -500,6 +574,351 @@
                 resultDiv.innerHTML = `
                     <div class="error">
                         <h4>❌ Erro ao criar doação</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Função para criar múltiplas doações de teste
+        async function criarMultiplasDoacoes() {
+            const resultDiv = document.getElementById('doacoes-familias-result');
+            resultDiv.innerHTML = '<p>Criando múltiplas doações de teste...</p>';
+            
+            try {
+                // Buscar dados existentes
+                const [doadoresResp, produtosResp, familiasResp] = await Promise.all([
+                    axios.get(`${API_BASE_URL}/doadores`),
+                    axios.get(`${API_BASE_URL}/produtos`),
+                    axios.get(`${API_BASE_URL}/familias`)
+                ]);
+
+                const doadores = doadoresResp.data.data;
+                const produtos = produtosResp.data.data;
+                const familias = familiasResp.data.data;
+
+                if (!doadores.length) throw new Error('Cadastre doadores primeiro!');
+                if (!produtos.length) throw new Error('Cadastre produtos primeiro!');
+                if (!familias.length) throw new Error('Cadastre famílias primeiro!');
+
+                const resultados = [];
+                const numDoacoes = Math.min(5, doadores.length); // Criar até 5 doações
+
+                for (let i = 0; i < numDoacoes; i++) {
+                    try {
+                        // Selecionar doador, produto e família aleatórios
+                        const doador = doadores[Math.floor(Math.random() * doadores.length)];
+                        const produto = produtos[Math.floor(Math.random() * produtos.length)];
+                        const familia = familias[Math.floor(Math.random() * familias.length)];
+
+                        // Gerar data aleatória nos últimos 30 dias
+                        const dataAleatoria = new Date();
+                        dataAleatoria.setDate(dataAleatoria.getDate() - Math.floor(Math.random() * 30));
+
+                        // Criar doação para família
+                        const doacaoFamiliaData = {
+                            familia_id_familia: familia.id,
+                            produtos_id: produto.id,
+                            quantidade: Math.floor(Math.random() * 5) + 1,
+                            data: dataAleatoria.toISOString().slice(0, 10)
+                        };
+
+                        const response = await axios.post(`${API_BASE_URL}/doacao-familia`, doacaoFamiliaData, {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            }
+                        });
+
+                        resultados.push({
+                            tipo: 'Família',
+                            doador: doador.nome,
+                            familia: familia.nome_representante,
+                            produto: produto.nome,
+                            sucesso: true,
+                            dados: response.data
+                        });
+
+                    } catch (error) {
+                        resultados.push({
+                            tipo: 'Família',
+                            sucesso: false,
+                            erro: error.message
+                        });
+                    }
+                }
+
+                // Exibir resultados
+                const sucessos = resultados.filter(r => r.sucesso).length;
+                const falhas = resultados.length - sucessos;
+
+                let html = `
+                    <div class="success">
+                        <h4>✅ Múltiplas doações criadas!</h4>
+                        <p><strong>Total de tentativas:</strong> ${resultados.length}</p>
+                        <p><strong>Sucessos:</strong> ${sucessos}</p>
+                        <p><strong>Falhas:</strong> ${falhas}</p>
+                        <p><strong>Doadores utilizados:</strong> ${doadores.length} disponíveis</p>
+                        <p><strong>Produtos utilizados:</strong> ${produtos.length} disponíveis</p>
+                        <p><strong>Famílias utilizadas:</strong> ${familias.length} disponíveis</p>
+                        <hr>
+                        <h5>Detalhes das doações:</h5>
+                `;
+
+                resultados.forEach((resultado, index) => {
+                    if (resultado.sucesso) {
+                        html += `
+                            <div style="margin: 10px 0; padding: 10px; background: #f0f8ff; border-left: 4px solid #28a745;">
+                                <strong>Doação ${index + 1}:</strong> ${resultado.familia} recebeu ${resultado.produto}
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div style="margin: 10px 0; padding: 10px; background: #fff3cd; border-left: 4px solid #ffc107;">
+                                <strong>Doação ${index + 1}:</strong> Falhou - ${resultado.erro}
+                            </div>
+                        `;
+                    }
+                });
+
+                html += '</div>';
+                resultDiv.innerHTML = html;
+
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao criar múltiplas doações</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Função para criar múltiplos doadores de teste
+        async function criarMultiplosDoadores() {
+            const resultDiv = document.getElementById('doadores-result');
+            resultDiv.innerHTML = '<p>Criando múltiplos doadores...</p>';
+            
+            // Lista de nomes brasileiros para gerar dados mais realistas
+            const nomes = [
+                "Ana Silva", "Carlos Santos", "Maria Oliveira", "João Pereira", "Lucia Costa",
+                "Pedro Ferreira", "Fernanda Lima", "Roberto Almeida", "Patricia Souza", "Marcos Rodrigues",
+                "Juliana Barbosa", "Ricardo Gomes", "Camila Martins", "Andre Silva", "Vanessa Santos",
+                "Felipe Oliveira", "Gabriela Costa", "Thiago Pereira", "Isabela Lima", "Rafael Almeida",
+                "Carolina Souza", "Diego Rodrigues", "Amanda Barbosa", "Lucas Gomes", "Mariana Martins",
+                "Bruno Silva", "Beatriz Santos", "Guilherme Oliveira", "Larissa Costa", "Matheus Pereira"
+            ];
+            
+            const sobrenomes = [
+                "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Almeida", "Pereira",
+                "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Alves", "Lopes", "Soares",
+                "Fernandes", "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade", "Moreira"
+            ];
+            
+            const ruas = ["Rua das Flores", "Avenida Principal", "Rua do Comércio", "Avenida Central", "Rua da Paz"];
+            
+            try {
+                const resultados = [];
+                const numDoadores = 10; // Criar 10 doadores
+
+                for (let i = 0; i < numDoadores; i++) {
+                    try {
+                        // Gerar nome aleatório
+                        const nomeAleatorio = nomes[Math.floor(Math.random() * nomes.length)];
+                        const sobrenomeAleatorio = sobrenomes[Math.floor(Math.random() * sobrenomes.length)];
+                        const nomeCompleto = `${nomeAleatorio} ${sobrenomeAleatorio}`;
+                        
+                        // Gerar endereço aleatório
+                        const numero = Math.floor(Math.random() * 999) + 1;
+                        const ruaAleatoria = ruas[Math.floor(Math.random() * ruas.length)];
+
+                        const doadorData = {
+                            nome: nomeCompleto,
+                            email: gerarEmailAleatorio(),
+                            telefone: `(11) ${Math.floor(Math.random() * 90000) + 10000}-${Math.floor(Math.random() * 9000) + 1000}`,
+                            endereco: `${ruaAleatoria}, ${numero}`
+                        };
+
+                        const response = await axios.post(`${API_BASE_URL}/doadores`, doadorData, {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            }
+                        });
+
+                        resultados.push({
+                            nome: nomeCompleto,
+                            sucesso: true,
+                            dados: response.data
+                        });
+
+                    } catch (error) {
+                        resultados.push({
+                            nome: `Doador ${i + 1}`,
+                            sucesso: false,
+                            erro: error.message
+                        });
+                    }
+                }
+
+                // Exibir resultados
+                const sucessos = resultados.filter(r => r.sucesso).length;
+                const falhas = resultados.length - sucessos;
+
+                let html = `
+                    <div class="success">
+                        <h4>✅ Múltiplos doadores criados!</h4>
+                        <p><strong>Total de tentativas:</strong> ${resultados.length}</p>
+                        <p><strong>Sucessos:</strong> ${sucessos}</p>
+                        <p><strong>Falhas:</strong> ${falhas}</p>
+                        <hr>
+                        <h5>Doadores criados:</h5>
+                `;
+
+                resultados.forEach((resultado, index) => {
+                    if (resultado.sucesso) {
+                        html += `
+                            <div style="margin: 10px 0; padding: 10px; background: #f0f8ff; border-left: 4px solid #28a745;">
+                                <strong>Doador ${index + 1}:</strong> ${resultado.nome}
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div style="margin: 10px 0; padding: 10px; background: #fff3cd; border-left: 4px solid #ffc107;">
+                                <strong>Doador ${index + 1}:</strong> Falhou - ${resultado.erro}
+                            </div>
+                        `;
+                    }
+                });
+
+                html += '</div>';
+                resultDiv.innerHTML = html;
+
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao criar múltiplos doadores</h4>
+                        <p>${error.message}</p>
+                        <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Função para criar múltiplas famílias de teste
+        async function criarMultiplasFamilias() {
+            const resultDiv = document.getElementById('familias-result');
+            resultDiv.innerHTML = '<p>Criando múltiplas famílias...</p>';
+            
+            function gerarCpfAleatorio() {
+                let cpf = '';
+                for (let i = 0; i < 11; i++) {
+                    cpf += Math.floor(Math.random() * 10);
+                }
+                return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            }
+
+            // Lista de nomes brasileiros para famílias
+            const nomesFamilia = [
+                "Maria Silva", "José Santos", "Ana Oliveira", "Carlos Pereira", "Lucia Costa",
+                "Pedro Ferreira", "Fernanda Lima", "Roberto Almeida", "Patricia Souza", "Marcos Rodrigues",
+                "Juliana Barbosa", "Ricardo Gomes", "Camila Martins", "Andre Silva", "Vanessa Santos",
+                "Felipe Oliveira", "Gabriela Costa", "Thiago Pereira", "Isabela Lima", "Rafael Almeida",
+                "Carolina Souza", "Diego Rodrigues", "Amanda Barbosa", "Lucas Gomes", "Mariana Martins",
+                "Bruno Silva", "Beatriz Santos", "Guilherme Oliveira", "Larissa Costa", "Matheus Pereira"
+            ];
+            
+            const sobrenomesFamilia = [
+                "Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Almeida", "Pereira",
+                "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Alves", "Lopes", "Soares",
+                "Fernandes", "Vieira", "Barbosa", "Rocha", "Dias", "Nascimento", "Andrade", "Moreira"
+            ];
+            
+            const ruas = ["Rua das Famílias", "Avenida da Esperança", "Rua da Solidariedade", "Avenida da Paz", "Rua da União"];
+            
+            try {
+                const resultados = [];
+                const numFamilias = 8; // Criar 8 famílias
+
+                for (let i = 0; i < numFamilias; i++) {
+                    try {
+                        // Gerar nome aleatório para família
+                        const nomeAleatorio = nomesFamilia[Math.floor(Math.random() * nomesFamilia.length)];
+                        const sobrenomeAleatorio = sobrenomesFamilia[Math.floor(Math.random() * sobrenomesFamilia.length)];
+                        const nomeCompleto = `${nomeAleatorio} ${sobrenomeAleatorio}`;
+                        
+                        // Gerar endereço aleatório
+                        const numero = Math.floor(Math.random() * 999) + 1;
+                        const ruaAleatoria = ruas[Math.floor(Math.random() * ruas.length)];
+
+                        const familiaData = {
+                            nome_representante: nomeCompleto,
+                            cpf_responsavel: gerarCpfAleatorio(),
+                            telefone: `(11) ${Math.floor(Math.random() * 90000) + 10000}-${Math.floor(Math.random() * 9000) + 1000}`,
+                            endereco: `${ruaAleatoria}, ${numero}`
+                        };
+
+                        const response = await axios.post(`${API_BASE_URL}/familias`, familiaData, {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            }
+                        });
+
+                        resultados.push({
+                            nome: nomeCompleto,
+                            sucesso: true,
+                            dados: response.data
+                        });
+
+                    } catch (error) {
+                        resultados.push({
+                            nome: `Família ${i + 1}`,
+                            sucesso: false,
+                            erro: error.message
+                        });
+                    }
+                }
+
+                // Exibir resultados
+                const sucessos = resultados.filter(r => r.sucesso).length;
+                const falhas = resultados.length - sucessos;
+
+                let html = `
+                    <div class="success">
+                        <h4>✅ Múltiplas famílias criadas!</h4>
+                        <p><strong>Total de tentativas:</strong> ${resultados.length}</p>
+                        <p><strong>Sucessos:</strong> ${sucessos}</p>
+                        <p><strong>Falhas:</strong> ${falhas}</p>
+                        <hr>
+                        <h5>Famílias criadas:</h5>
+                `;
+
+                resultados.forEach((resultado, index) => {
+                    if (resultado.sucesso) {
+                        html += `
+                            <div style="margin: 10px 0; padding: 10px; background: #f0f8ff; border-left: 4px solid #28a745;">
+                                <strong>Família ${index + 1}:</strong> ${resultado.nome}
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div style="margin: 10px 0; padding: 10px; background: #fff3cd; border-left: 4px solid #ffc107;">
+                                <strong>Família ${index + 1}:</strong> Falhou - ${resultado.erro}
+                            </div>
+                        `;
+                    }
+                });
+
+                html += '</div>';
+                resultDiv.innerHTML = html;
+
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erro ao criar múltiplas famílias</h4>
                         <p>${error.message}</p>
                         <pre>${JSON.stringify(error.response?.data || error, null, 2)}</pre>
                     </div>

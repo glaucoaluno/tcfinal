@@ -14,18 +14,95 @@
 
   <main>
     <section class="relatorio-filtros">
-      <h2>Filtrar por Família ou Data</h2>
-      <input type="text" id="filtro-nome" placeholder="Nome da Família" />
-      <input type="date" id="filtro-data" />
-      <button id="filtrar-btn" class="btn">Filtrar</button>
+      <h2>Filtros de Pesquisa</h2>
+      
+      <div class="filtros-grid">
+        <div class="filtro-grupo">
+          <label for="filtro-familia">Família:</label>
+          <select id="filtro-familia">
+            <option value="">Todas as famílias</option>
+          </select>
+        </div>
+
+        <div class="filtro-grupo">
+          <label for="filtro-produto">Produto:</label>
+          <select id="filtro-produto">
+            <option value="">Todos os produtos</option>
+          </select>
+        </div>
+
+        <div class="filtro-grupo">
+          <label for="filtro-data-inicio">Data Início:</label>
+          <input type="date" id="filtro-data-inicio" />
+        </div>
+
+        <div class="filtro-grupo">
+          <label for="filtro-data-fim">Data Fim:</label>
+          <input type="date" id="filtro-data-fim" />
+        </div>
+
+        <div class="filtro-grupo">
+          <label for="filtro-mes">Mês/Ano:</label>
+          <input type="month" id="filtro-mes" />
+        </div>
+      </div>
+
+      <div class="botoes-filtro">
+        <button id="filtrar-btn" class="btn">Filtrar</button>
+        <button id="limpar-filtros-btn" class="btn btn-secondary">Limpar Filtros</button>
+        <button id="exportar-btn" class="btn btn-success">Exportar CSV</button>
+      </div>
+    </section>
+
+    <section class="relatorio-resumo">
+      <h2>Resumo</h2>
+      <div class="cards-resumo">
+        <div class="card">
+          <h3>Total de Doações</h3>
+          <span id="total-doacoes">0</span>
+        </div>
+        <div class="card">
+          <h3>Famílias Beneficiadas</h3>
+          <span id="total-familias">0</span>
+        </div>
+        <div class="card">
+          <h3>Produtos Distribuídos</h3>
+          <span id="total-produtos">0</span>
+        </div>
+        <div class="card">
+          <h3>Quantidade Total</h3>
+          <span id="quantidade-total">0</span>
+        </div>
+      </div>
     </section>
 
     <section id="relatorio-resultados">
       <h2>Doações Registradas</h2>
-      <ul id="lista-doacoes"></ul>
+      <div class="tabela-container">
+        <table id="tabela-doacoes">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Família</th>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>CPF Responsável</th>
+              <th>Telefone</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-doacoes-body">
+            <!-- Dados serão inseridos aqui -->
+          </tbody>
+        </table>
+      </div>
+      
+      <div id="sem-resultados" class="sem-resultados" style="display: none;">
+        <p>Nenhuma doação encontrada com os filtros aplicados.</p>
+      </div>
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

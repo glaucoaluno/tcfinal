@@ -114,7 +114,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const doador = doadorResponse.data.data; // Acessar o campo data da resposta
-      const doadorId = doador.id;
+      const doadorId = doador ? doador.id : null;
+      
+      if (!doadorId) {
+        throw new Error('Doador não foi criado corretamente');
+      }
 
       // 2. Criar doação com produtos
       const doacaoData = {
@@ -143,10 +147,11 @@ document.addEventListener("DOMContentLoaded", () => {
       showMessage("Doação cadastrada com sucesso!", "success");
       form.reset();
       
-      // Opcional: mostrar IDs para referência
+      // Opcional: mostrar IDs para referência e redirecionar
       setTimeout(() => {
         if (confirm(`Doação registrada com sucesso!\n\nDoador ID: ${doadorId}\nDoação ID: ${doacao.id_doacao}\n\nDeseja ver detalhes da doação?`)) {
-          console.log('Doação completa criada:', { doador, doacao });
+          // Redirecionar para a página de registro de doações
+          window.location.href = '../Administrativo/Registro de Doacoes/Registro.html';
         }
       }, 1500);
 

@@ -47,7 +47,6 @@ async function handleLogin(event) {
             AuthManager.login();
             showAdminPanel();
             errorDiv.style.display = 'none';
-            alert('Login realizado com sucesso!');
         } else {
             console.log('Login falhou - credenciais inválidas');
             showLoginError('Credenciais inválidas.');
@@ -123,7 +122,7 @@ window.AdminUtils = {
     // Função para verificar se o usuário está logado
     checkAuth() {
         if (!AuthManager.isLoggedIn()) {
-            alert("Sessão expirada. Redirecionando para o login...");
+            // Redirecionar diretamente para o login sem alert
             window.location.href = "index.html";
             return false;
         }
@@ -143,11 +142,11 @@ window.AdminUtils = {
 
     // Função para mostrar mensagens de erro
     showError(message) {
-        alert(`Erro: ${message}`);
+        console.error(`Erro: ${message}`);
     },
 
     // Função para mostrar mensagens de sucesso
     showSuccess(message) {
-        alert(`Sucesso: ${message}`);
+        console.log(`Sucesso: ${message}`);
     }
 };

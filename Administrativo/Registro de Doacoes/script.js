@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
   if (!isLoggedIn) {
-    alert("Acesso não autorizado. Faça login primeiro.");
+    // Redirecionar diretamente para o login sem alert
     window.location.href = "../index.html";
     return;
   }

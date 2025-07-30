@@ -243,8 +243,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Exportar para CSV
   function exportarCSV() {
     const doacoesFiltradas = obterDoacoesFiltradas();
-    
-    if (doacoesFiltradas.length === 0) {
+
+        if (doacoesFiltradas.length === 0) {
       showMessage("Nenhuma doação para exportar.", "warning");
       return;
     }

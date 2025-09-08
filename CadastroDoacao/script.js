@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         if (confirm(`Doação registrada com sucesso!\n\nDoador ID: ${doadorId}\nDoação ID: ${doacao.id_doacao}\n\nDeseja ver detalhes da doação?`)) {
           // Redirecionar para a página de registro de doações
-          window.location.href = '../Administrativo/Registro de Doacoes/Registro.html';
+          window.location.href = '../Administrativo/RegistroDoacoes/Registro.html';
         }
       }, 1500);
 

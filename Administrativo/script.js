@@ -40,8 +40,6 @@ async function handleLogin(event) {
             password: password
         });
         
-        console.log('Resposta recebida:', response);
-        
         if (response.data.success) {
             console.log('Login bem-sucedido!');
             AuthManager.login();

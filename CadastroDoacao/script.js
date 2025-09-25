@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadingSpinner = document.getElementById("loading-spinner");
   
   // Configuração da API
-  const API_BASE_URL = 'http://localhost:8989/api';
+  const API_BASE_URL = 'http://localhost:8000/api';
 
   // Utilitários
   const showLoading = (show = true) => {

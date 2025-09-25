@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Configuração da API
-  const API_BASE_URL = 'http://localhost:8989/api';
+  const API_BASE_URL = 'http://localhost:8000/api';
 
   const lista = document.getElementById("lista-familias");
   const select = document.getElementById("select-familia");

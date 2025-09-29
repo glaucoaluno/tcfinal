@@ -86,7 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
   async function carregarFamilias() {
     try {
       const response = await axios.get(`${API_BASE_URL}/familias`);
-      todasFamilias = response.data.data || [];
+      const payload = Array.isArray(response.data) ? response.data : (response.data?.data || []);
+      todasFamilias = payload;
       
       filtroFamilia.innerHTML = '<option value="">Todas as famílias</option>';
       todasFamilias.forEach(familia => {
@@ -105,7 +106,8 @@ document.addEventListener("DOMContentLoaded", () => {
   async function carregarProdutos() {
     try {
       const response = await axios.get(`${API_BASE_URL}/produtos`);
-      todosProdutos = response.data.data || [];
+      const payload = Array.isArray(response.data) ? response.data : (response.data?.data || []);
+      todosProdutos = payload;
       
       filtroProduto.innerHTML = '<option value="">Todos os produtos</option>';
       todosProdutos.forEach(produto => {
@@ -123,8 +125,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Carregar doações
   async function carregarDoacoes() {
     try {
-      const response = await axios.get(`${API_BASE_URL}/doacoes-familias`);
-      todasDoacoes = response.data.data || [];
+      const response = await axios.get(`${API_BASE_URL}/doacao-familia`);
+      const payload = Array.isArray(response.data) ? response.data : (response.data?.data || []);
+      todasDoacoes = payload;
       
       aplicarFiltros();
     } catch (error) {
@@ -172,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Filtro por mês/ano
-    const mesAno = filtroMes.value;
+    const mesAno = filtroMes?.value;
     if (mesAno) {
       const [ano, mes] = mesAno.split('-');
       const dataInicioMes = `${ano}-${mes}-01`;
@@ -211,9 +214,37 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${doacao.quantidade || 0}</td>
         <td>${formatarCPF(familia.cpf_responsavel)}</td>
         <td>${formatarTelefone(familia.telefone)}</td>
+        <td>
+          <button class="btn btn-secondary btn-sm" data-action="edit" data-id="${doacao.id}">Editar</button>
+          <button class="btn btn-danger btn-sm" data-action="delete" data-id="${doacao.id}">Remover</button>
+        </td>
       `;
       
       tabelaDoacoesBody.appendChild(row);
+    });
+
+    // Delegação de eventos para ações
+    tabelaDoacoesBody.querySelectorAll('button[data-action="edit"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = e.currentTarget.getAttribute('data-id');
+        window.location.href = `../DoacaoFamiliaEditar/Editar.html?id=${id}`;
+      });
+    });
+
+    tabelaDoacoesBody.querySelectorAll('button[data-action="delete"]').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const id = e.currentTarget.getAttribute('data-id');
+        if (!confirm('Tem certeza que deseja remover esta doação?')) return;
+        try {
+          await axios.delete(`${API_BASE_URL}/doacao-familia/${id}`);
+          showMessage('Doação removida com sucesso!', 'success');
+          await carregarDoacoes();
+        } catch (error) {
+          console.error('Erro ao remover doação:', error);
+          const msg = error.response?.data?.message || error.response?.data?.error || 'Erro ao remover.';
+          showMessage(msg, 'error');
+        }
+      });
     });
   }
 
@@ -224,10 +255,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const produtosUnicos = new Set(doacoes.map(d => d.produto?.id).filter(Boolean));
     const quantidadeTotalCount = doacoes.reduce((sum, d) => sum + (d.quantidade || 0), 0);
 
-    totalDoacoes.textContent = totalDoacoesCount;
-    totalFamilias.textContent = familiasUnicas.size;
-    totalProdutos.textContent = produtosUnicos.size;
-    quantidadeTotal.textContent = quantidadeTotalCount;
+    if (typeof totalDoacoes !== 'undefined' && totalDoacoes) {
+      totalDoacoes.textContent = totalDoacoesCount;
+    }
+    if (typeof totalFamilias !== 'undefined' && totalFamilias) {
+      totalFamilias.textContent = familiasUnicas.size;
+    }
+    if (typeof totalProdutos !== 'undefined' && totalProdutos) {
+      totalProdutos.textContent = produtosUnicos.size;
+    }
+    if (typeof quantidadeTotal !== 'undefined' && quantidadeTotal) {
+      quantidadeTotal.textContent = quantidadeTotalCount;
+    }
   }
 
   // Limpar filtros
@@ -324,16 +363,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Event listeners
-  filtrarBtn.addEventListener('click', aplicarFiltros);
-  limparFiltrosBtn.addEventListener('click', limparFiltros);
-  exportarBtn.addEventListener('click', exportarCSV);
+  filtrarBtn && filtrarBtn.addEventListener('click', aplicarFiltros);
+  limparFiltrosBtn && limparFiltrosBtn.addEventListener('click', limparFiltros);
+  exportarBtn && exportarBtn.addEventListener('click', exportarCSV);
 
   // Filtros automáticos
-  filtroFamilia.addEventListener('change', aplicarFiltros);
-  filtroProduto.addEventListener('change', aplicarFiltros);
-  filtroDataInicio.addEventListener('change', aplicarFiltros);
-  filtroDataFim.addEventListener('change', aplicarFiltros);
-  filtroMes.addEventListener('change', aplicarFiltros);
+  filtroFamilia && filtroFamilia.addEventListener('change', aplicarFiltros);
+  filtroProduto && filtroProduto.addEventListener('change', aplicarFiltros);
+  filtroDataInicio && filtroDataInicio.addEventListener('change', aplicarFiltros);
+  filtroDataFim && filtroDataFim.addEventListener('change', aplicarFiltros);
+  filtroMes && filtroMes.addEventListener('change', aplicarFiltros);
 
   // Botão de sair
   document.getElementById("logout-btn").addEventListener("click", () => {

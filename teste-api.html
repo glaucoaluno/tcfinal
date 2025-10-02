@@ -423,7 +423,7 @@
                     data: dataAleatoria.toISOString().slice(0, 10)
                 };
                 
-                console.log('Dados da doação para família:', doacaoFamiliaData);
+                // Removido log detalhado para evitar vazamento de dados em produção
                 
                 const response = await axios.post(`${API_BASE_URL}/doacao-familia`, doacaoFamiliaData, {
                     headers: {

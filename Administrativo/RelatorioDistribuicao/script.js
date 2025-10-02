@@ -97,7 +97,11 @@ document.addEventListener("DOMContentLoaded", () => {
         filtroFamilia.appendChild(option);
       });
     } catch (error) {
-      console.error("Erro ao carregar famílias:", error);
+      console.error("Erro ao carregar famílias", {
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        message: error?.message
+      });
       showMessage("Erro ao carregar famílias.", "error");
     }
   }
@@ -117,7 +121,11 @@ document.addEventListener("DOMContentLoaded", () => {
         filtroProduto.appendChild(option);
       });
     } catch (error) {
-      console.error("Erro ao carregar produtos:", error);
+      console.error("Erro ao carregar produtos", {
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        message: error?.message
+      });
       showMessage("Erro ao carregar produtos.", "error");
     }
   }
@@ -131,7 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
       
       aplicarFiltros();
     } catch (error) {
-      console.error("Erro ao carregar doações:", error);
+      console.error("Erro ao carregar doações", {
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        message: error?.message
+      });
       showMessage("Erro ao carregar doações.", "error");
       todasDoacoes = [];
       aplicarFiltros();
@@ -240,7 +252,11 @@ document.addEventListener("DOMContentLoaded", () => {
           showMessage('Doação removida com sucesso!', 'success');
           await carregarDoacoes();
         } catch (error) {
-          console.error('Erro ao remover doação:', error);
+          console.error('Erro ao remover doação', {
+            status: error?.response?.status,
+            statusText: error?.response?.statusText,
+            message: error?.message
+          });
           const msg = error.response?.data?.message || error.response?.data?.error || 'Erro ao remover.';
           showMessage(msg, 'error');
         }
@@ -391,7 +407,11 @@ document.addEventListener("DOMContentLoaded", () => {
       
       showMessage("Relatório carregado com sucesso!", "success");
     } catch (error) {
-      console.error("Erro na inicialização:", error);
+      console.error("Erro na inicialização", {
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        message: error?.message
+      });
       showMessage("Erro ao carregar dados do relatório.", "error");
     }
   }

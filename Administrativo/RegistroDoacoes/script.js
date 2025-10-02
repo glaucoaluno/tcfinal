@@ -156,7 +156,11 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("form-doacao").classList.add("hidden");
       carregarDoacoes(); // recarrega com os dados atualizados
     } catch (err) {
-      console.error("Erro ao registrar doação:", err);
+      console.error("Erro ao registrar doação", {
+        status: err?.response?.status,
+        statusText: err?.response?.statusText,
+        message: err?.message
+      });
       if (err.response && err.response.data) {
         const errorMessage = err.response.data.message || err.response.data.error || 'Erro desconhecido';
         showMessage(`Erro ao registrar doação: ${errorMessage}`, "error");
@@ -188,7 +192,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   
     } catch (err) {
-      console.error("Erro ao carregar doações:", err);
+      console.error("Erro ao carregar doações", {
+        status: err?.response?.status,
+        statusText: err?.response?.statusText,
+        message: err?.message
+      });
       listaDoacoes.innerHTML = "<p>Erro ao carregar doações.</p>";
     }
   }

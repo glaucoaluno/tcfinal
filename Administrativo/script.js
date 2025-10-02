@@ -30,33 +30,25 @@ async function handleLogin(event) {
     const password = document.getElementById('password').value;
     const errorDiv = document.getElementById('login-error');
     
-    console.log('Tentando fazer login com:', { email, password });
-    console.log('URL da API:', `${API_CONFIG.baseURL}/login`);
-    
     try {
-        console.log('Fazendo requisição POST...');
+        // console.debug('Iniciando requisição de login');
         const response = await axios.post(`${API_CONFIG.baseURL}/login`, {
             email: email,
             password: password
         });
         
         if (response.data.success) {
-            console.log('Login bem-sucedido!');
+            // console.info('Login bem-sucedido');
             AuthManager.login();
             showAdminPanel();
             errorDiv.style.display = 'none';
         } else {
-            console.log('Login falhou - credenciais inválidas');
+            // console.warn('Login falhou - credenciais inválidas');
             showLoginError('Credenciais inválidas.');
         }
     } catch (error) {
         console.error('Erro no login:', error);
-        console.error('Detalhes do erro:', {
-            status: error.response?.status,
-            statusText: error.response?.statusText,
-            data: error.response?.data,
-            message: error.message
-        });
+        // console.debug('Detalhes do erro (omitidos para privacidade)');
         
         if (error.response && error.response.data && error.response.data.message) {
             showLoginError(error.response.data.message);
@@ -112,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         loginForm.addEventListener('submit', handleLogin);
     }
     
-    console.log("Sistema administrativo inicializado com sucesso!");
+    // console.info("Sistema administrativo inicializado");
 });
 
 // Funções utilitárias que podem ser usadas em outras páginas
@@ -143,8 +135,8 @@ window.AdminUtils = {
         console.error(`Erro: ${message}`);
     },
 
-    // Função para mostrar mensagens de sucesso
+    // Função para mostrar mensagens de sucesso (desativada por padrão)
     showSuccess(message) {
-        console.log(`Sucesso: ${message}`);
+        // Intencionalmente sem log para evitar ruído em produção
     }
 };

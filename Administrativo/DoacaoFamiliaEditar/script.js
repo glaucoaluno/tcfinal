@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const API_BASE_URL = 'https://ajudaongs.up.railway.app:8080/api';
+  const API_BASE_URL = 'https://ajudaongs.up.railway.app/api';
 
   const params = new URLSearchParams(window.location.search);
   const doacaoId = params.get('id');

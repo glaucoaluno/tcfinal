@@ -1,6 +1,6 @@
 // Configuração da API
 const API_CONFIG = {
-    baseURL: 'https://ajudaongs.up.railway.app:8080/api',
+    baseURL: 'https://ajudaongs.up.railway.app/api',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'

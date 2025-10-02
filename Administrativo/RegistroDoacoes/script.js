@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Configuração da API
-  const API_BASE_URL = 'https://ajudaongs.up.railway.app:8080/api';
+  const API_BASE_URL = 'https://ajudaongs.up.railway.app/api';
 
   const selectFamilia = document.getElementById("familia");
   const selectProduto = document.getElementById("produto");

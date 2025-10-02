@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Configuração da API
-  const API_BASE_URL = 'http://localhost:8000/api';
+  const API_BASE_URL = 'https://ajudaongs.up.railway.app:8080/api';
 
   // Elementos do DOM
   const filtroFamilia = document.getElementById("filtro-familia");

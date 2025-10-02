@@ -4,9 +4,9 @@
   "description": "Front-end do projeto TCC Ajuda ONGs",
   "main": "index.js",
   "dependencies": {
-    "axios": "^1.10.0"
+    "axios": "^1.10.0",
+    "http-server": "^14.1.1"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

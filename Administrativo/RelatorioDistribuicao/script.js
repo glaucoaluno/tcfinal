@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tabelaDoacoesBody.querySelectorAll('button[data-action="edit"]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const id = e.currentTarget.getAttribute('data-id');
-        window.location.href = `../DoacaoFamiliaEditar/Editar.html?id=${id}`;
+        window.location.href = `../DoacaoFamiliaEditar/index.html?id=${id}`;
       });
     });
 

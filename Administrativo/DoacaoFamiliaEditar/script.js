@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!doacaoId) {
     alert('ID da doação não informado.');
-    window.location.href = '../RelatorioDistribuicao/Relatorio.html';
+    window.location.href = '../RelatorioDistribuicao';
     return;
   }
 
@@ -17,11 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('form-editar');
 
   document.getElementById('voltar-btn').addEventListener('click', () => {
-    window.location.href = '../RelatorioDistribuicao/Relatorio.html';
+    window.location.href = '../RelatorioDistribuicao';
   });
 
   document.getElementById('cancelar-btn').addEventListener('click', () => {
-    window.location.href = '../RelatorioDistribuicao/Relatorio.html';
+    window.location.href = '../RelatorioDistribuicao';
   });
 
   const showMessage = (message, type = 'info') => {
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       showMessage('Doação atualizada com sucesso!', 'success');
       setTimeout(() => {
-        window.location.href = '../RelatorioDistribuicao/Relatorio.html';
+        window.location.href = '../RelatorioDistribuicao';
       }, 800);
     } catch (error) {
       console.error('Erro ao atualizar:', error);

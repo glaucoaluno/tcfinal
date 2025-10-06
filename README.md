@@ -54,7 +54,7 @@ A estrutura de pastas do projeto é organizada da seguinte forma:
 - Dois botões principais: "Quero Doar" e "Área Administrativa".
 - Redirecionamento para cadastro de doação ou área administrativa.
 
-### Cadastro de Doação (`CadastroDoacao/cadastro.html`)
+### Cadastro de Doação (`CadastroDoacao`)
 - Cadastro de doadores (pessoa física ou jurídica).
 - Validação de CPF/CNPJ com máscara automática.
 - Localizador de CEP para preenchimento automático de endereço.
@@ -62,20 +62,20 @@ A estrutura de pastas do projeto é organizada da seguinte forma:
 - Opção "Já sou cadastrado" para doadores recorrentes.
 - Campos para produto doado, quantidade, peso e opção de entrega/retirada.
 
-### Área Administrativa (`Administrativo/index.html`)
-- Login com usuário `admin` e senha `admin123`.
+### Área Administrativa (`Administrativo`)
+- Login com usuário `admin` e senha.
 - Acesso às páginas de controle de doações, famílias beneficiadas e relatórios.
 
-### Famílias Beneficiadas (`Administrativo/FamiliasBeneficiadas/Familias.html`)
+### Famílias Beneficiadas (`Administrativo/FamiliasBeneficiadas`)
 - Lista de famílias cadastradas.
 - Opções para cadastrar novas famílias e beneficiar famílias com doações.
 - Botões para confirmar retirada de doação.
 
-### Registro de Doações (`Administrativo/RegistroDoacoes/Registro.html`)
+### Registro de Doações (`Administrativo/RegistroDoacoes`)
 - Histórico de doações recebidas.
 - Opções para editar, excluir e registrar novas doações.
 
-### Relatório de Distribuição (`Administrativo/RelatorioDistribuicao/Relatorio.html`)
+### Relatório de Distribuição (`Administrativo/RelatorioDistribuicao`)
 - Histórico de doações distribuídas.
 - Opções para editar e excluir registros.
 

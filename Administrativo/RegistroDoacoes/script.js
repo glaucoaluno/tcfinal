@@ -141,9 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
         axios.get(`${API_BASE_URL}/produtos/${doacaoData.produtos_id}`)
       ]);
 
-      const familia = familiaResponse.data.data; // Acessar o campo data da resposta
-      const produto = produtoResponse.data.data; // Acessar o campo data da resposta
-
       // Registrar a doação para família (usando a tabela doacao_familia)
       const response = await axios.post(`${API_BASE_URL}/doacao-familia`, doacaoData, {
         headers: {
@@ -156,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("form-doacao").classList.add("hidden");
       carregarDoacoes(); // recarrega com os dados atualizados
     } catch (err) {
-      console.error("Erro ao registrar doação", {
+      console.error("Erro ao registrar doação", { // linha 159, ERRO
         status: err?.response?.status,
         statusText: err?.response?.statusText,
         message: err?.message

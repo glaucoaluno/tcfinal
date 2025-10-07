@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const filtroProduto = document.getElementById("filtro-produto");
   const filtroDataInicio = document.getElementById("filtro-data-inicio");
   const filtroDataFim = document.getElementById("filtro-data-fim");
-  const filtroMes = document.getElementById("filtro-mes");
   const filtrarBtn = document.getElementById("filtrar-btn");
   const limparFiltrosBtn = document.getElementById("limpar-filtros-btn");
   const exportarBtn = document.getElementById("exportar-btn");
@@ -186,17 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
 
-    // Filtro por mês/ano
-    const mesAno = filtroMes?.value;
-    if (mesAno) {
-      const [ano, mes] = mesAno.split('-');
-      const dataInicioMes = `${ano}-${mes}-01`;
-      const dataFimMes = `${ano}-${mes}-31`;
-      
-      doacoesFiltradas = doacoesFiltradas.filter(doacao => 
-        doacao.data && doacao.data >= dataInicioMes && doacao.data <= dataFimMes + 'T23:59:59'
-      );
-    }
 
     exibirDoacoes(doacoesFiltradas);
     atualizarResumo(doacoesFiltradas);
@@ -291,7 +279,6 @@ document.addEventListener("DOMContentLoaded", () => {
     filtroProduto.value = '';
     filtroDataInicio.value = '';
     filtroDataFim.value = '';
-    filtroMes.value = '';
     aplicarFiltros();
   }
 
@@ -299,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function exportarCSV() {
     const doacoesFiltradas = obterDoacoesFiltradas();
 
-        if (doacoesFiltradas.length === 0) {
+    if (doacoesFiltradas.length === 0) {
       showMessage("Nenhuma doação para exportar.", "warning");
       return;
     }
@@ -365,15 +352,6 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
 
-    if (filtroMes.value) {
-      const [ano, mes] = filtroMes.value.split('-');
-      const dataInicioMes = `${ano}-${mes}-01`;
-      const dataFimMes = `${ano}-${mes}-31`;
-      
-      doacoesFiltradas = doacoesFiltradas.filter(doacao => 
-        doacao.data && doacao.data >= dataInicioMes && doacao.data <= dataFimMes + 'T23:59:59'
-      );
-    }
 
     return doacoesFiltradas;
   }
@@ -388,7 +366,6 @@ document.addEventListener("DOMContentLoaded", () => {
   filtroProduto && filtroProduto.addEventListener('change', aplicarFiltros);
   filtroDataInicio && filtroDataInicio.addEventListener('change', aplicarFiltros);
   filtroDataFim && filtroDataFim.addEventListener('change', aplicarFiltros);
-  filtroMes && filtroMes.addEventListener('change', aplicarFiltros);
 
   // Botão de sair
   document.getElementById("logout-btn").addEventListener("click", () => {
